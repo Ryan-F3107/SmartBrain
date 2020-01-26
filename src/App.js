@@ -29,9 +29,30 @@ class App extends Component {
     super();
     this.state = {
       input: '',
-      imageURL: ''
+      imageURL: '',
+      box: {}, //start of with an empty object
     }
   }
+
+  calculateFaceLocation = (data) => {
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('inputimage');
+    const width = Number(image.width); //ensures that it's a number; note:we focused the width to always be 500px
+    const height = Number(image.height);
+    console.log(width,height,clarifaiFace);
+//  we want to return an object that will fill up the 'box' state. The object will need to figure out the
+//  first,second,third and forth dot and wrap it around the border.
+    return{
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height, //height of it is the percentage
+      rightCol: width - (clarifaiFace.right_col * width),
+      bottomRow: height - (clarifaiFace.bottom_row * height)
+    }
+  }
+
+  displayFaceBox = (box) => {
+    this.setState({box: box})
+  } 
 
   onInputChange = (event) => {
     this.setState({input: event.target.value});
@@ -39,14 +60,12 @@ class App extends Component {
 
   onSubmitClick = () => {
     this.setState({imageURL: this.state.input})
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input).then(
-      function(response) {
-        console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
-      },
-      function(err) {
-        // there was an error
-      }
-    );
+    app.models
+      .predict(
+        Clarifai.FACE_DETECT_MODEL,
+        this.state.input)
+      .then(response => this.calculateFaceLocation(response))
+      .catch(err => console.log(err)); //catch works like an else statement 
   }
 
   render() {
