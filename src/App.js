@@ -42,7 +42,7 @@ class App extends Component {
     const image = document.getElementById('inputimage');
     const width = Number(image.width); //ensures that it's a number; note:we focused the width to always be 500px
     const height = Number(image.height);
-    console.log(width,height,clarifaiFace);
+    console.log(" Width and Height of image is : ",width,height);
 //  we want to return an object that will fill up the 'box' state. The object will need to figure out the
 //  first,second,third and forth dot and wrap it around the border.
     return{
@@ -54,6 +54,7 @@ class App extends Component {
   }
 
   displayFaceBox = (box) => {
+    console.log(box);
     this.setState({box: box})
   } 
 
@@ -67,14 +68,14 @@ class App extends Component {
       .predict(
         Clarifai.FACE_DETECT_MODEL,
         this.state.input)
-      .then(response => this.calculateFaceLocation(response))
+      .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
       .catch(err => console.log(err)); //catch works like an else statement 
   }
 
   onRouteChange = (route) => {
     this.setState({route: route });
   }
-
+//FaceRecognition will take in the state of the box to draw the box on the image of the face being detected
   render() {
     return (
       <div className="App">
@@ -95,6 +96,14 @@ class App extends Component {
             <FaceRecognition imageURL={this.state.imageURL} />
           </div>
         }
+        <Navigation />
+        <Logo />
+        <Rank />
+        <ImageLinkForm 
+          onInputChange={this.onInputChange} 
+          onSubmit={this.onSubmitClick}
+        />
+        <FaceRecognition box={this.state.box} imageURL={this.state.imageURL}/>  
       </div>
     );
   }
