@@ -1,6 +1,12 @@
 # SmartBrain
 updating periodically !!
 
+## Frontend ##
+Used create-react app with reactjs,css and javascript
+
+## Backend ##
+[ Still in learning stage, plan on implementing Node.js & Express.js for the server & PostgreSQL for the database. ]
+
 To run this program.
 ---
 1) Clone the repository
