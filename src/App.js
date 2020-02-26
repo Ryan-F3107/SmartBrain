@@ -39,6 +39,14 @@ class App extends Component {
     }
   }
 
+  //CHECK
+  // //point to instantiate the network request, a livecycle hook that comes with react.
+  // componentDidMount() {
+  //   fetch('http://localhost:3000/')//backend is running on localHost 3000, reading the base with '/'
+  //     .then(response => response.json())//we use .json so  that we can read it
+  //     .then(console.log)//the data will automatically get added in; instead of data => console.log(data);
+  // }
+
   calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputimage');
