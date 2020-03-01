@@ -27,11 +27,12 @@ class Signin extends React.Component {
 			})
 		})//fetch by default does a get request but we want to do a POST request
 			.then(response => response.json())
-			.then(data => {
-				if(data === 'success') {
-					this.props.onRouteChange('home');	// then go to home page.		
-				}
-			}) 
+	    	.then(user => {
+		        if(user.id){
+		          this.props.loadUser(user);
+		          this.props.onRouteChange('home');
+		        }
+	    })
 	}
 
 	render() {
