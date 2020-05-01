@@ -54,7 +54,7 @@ class Register extends React.Component {
 						type="text" 
 						name="name"  
 						id="name" 
-						onNameChange = {this.onNameChange}
+						onChange = {this.onNameChange}
 						/>
 					  </div>
 					  <div className="mt3">
