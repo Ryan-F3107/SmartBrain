@@ -27,24 +27,26 @@ const particlesOption = {
   }
 }
 
+const initialState = {
+  input: '',
+  imageURL: '',
+  box: {}, //start of with an empty object
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  } //end of user
+}
+
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      input: '',
-      imageURL: '',
-      box: {}, //start of with an empty object
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
-    }
-  }
+    this.state = initialState;
+  } //end of constructor
 
   loadUser = (data) => {
     this.setState({user: {
@@ -102,12 +104,13 @@ class App extends Component {
             body: JSON.stringify({
               id: this.state.user.id
             })
-          })
+          })  //end of fetch block
           .then(response => response.json())
           .then(count => {
             this.setState(Object.assign(this.state.user, {entries: count}))
           })
-      }
+          .catch(console.log) //improves error handling
+        } //end of if statement 
       this.displayFaceBox(this.calculateFaceLocation(response))
     })
       .catch(err => console.log(err)); //catch works like an else statement 
@@ -115,7 +118,7 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if(route === 'signout') {
-      this.setState({isSignedIn: false})
+      this.setState(initialState) //reset the state.
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
     }
