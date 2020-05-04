@@ -34,7 +34,7 @@ class Register extends React.Component {
 		})//fetch by default does a get request but we want to do a POST request
 			.then(response => response.json())
 			.then(user => {
-				if(user) {
+				if(user.id) {	//if id exist
 					this.props.loadUser(user)
 					this.props.onRouteChange('home');		
 				}
