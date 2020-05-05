@@ -102,14 +102,14 @@ class App extends Component {
             body: JSON.stringify({
               id: this.state.user.id
             })
-          })
+          })  //end of fetch
             .then(response => response.json())
             .then(count => {
               this.setState(Object.assign(this.state.user, { entries: count}))
             })
             .catch(console.log)
 
-        } //end of id statement
+        } //end of if statement
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
       .catch(err => console.log(err)); 
