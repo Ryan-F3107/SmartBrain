@@ -9,7 +9,7 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import './App.css';
 
-const particlesOptions = {
+const particlesOptions = { //attribute of background images
   particles: {
     number: {
       value: 250,
@@ -21,7 +21,7 @@ const particlesOptions = {
   }
 }
 
-const initialState = {
+const initialState = {  //initial state of the slate with people first log in and after logged out.
   input: '',
   imageUrl: '',
   box: {},
@@ -52,7 +52,7 @@ class App extends Component {
     }})
   }
 
-  calculateFaceLocation = (data) => {
+  calculateFaceLocation = (data) => { //creation of the box
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
@@ -66,7 +66,7 @@ class App extends Component {
     }
   }
 
-  displayFaceBox = (box) => {
+  displayFaceBox = (box) => { //image displays on webpage
     this.setState({box: box});
   }
 
@@ -74,8 +74,7 @@ class App extends Component {
     this.setState({input: event.target.value});
   }
 
-  onButtonSubmit = () => {
-    //Test 2
+  onButtonSubmit = () => {  //when detect is clicked
     this.setState({imageUrl: this.state.input});
       fetch('http://localhost:3000/imageurl', {
         method: 'post',
@@ -83,7 +82,7 @@ class App extends Component {
         body: JSON.stringify({
           input: this.state.input
         })
-      })
+      })  //end of fetch statement
       .then(response => response.json())
       .then(response => {
         if (response) {
@@ -100,11 +99,11 @@ class App extends Component {
             })
             .catch(console.log)
 
-        }
+        } //end of if statement
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
       .catch(err => console.log(err));
-  }//end of onSubmitClick
+  }//end of onButtonSubmit
 
   onRouteChange = (route) => {
     if (route === 'signout') {
