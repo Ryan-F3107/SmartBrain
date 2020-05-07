@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Particles from 'react-particles-js';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Navigation from './components/Navigation/Navigation';
 import Signin from './components/Signin/Signin';
-import Register from './components/Register/Register'
+import Register from './components/Register/Register';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import './App.css';
 
-const particlesOption = {
+const particlesOptions = {
   particles: {
     number: {
       value: 250,
@@ -23,8 +23,8 @@ const particlesOption = {
 
 const initialState = {
   input: '',
-  imageURL: '',
-  box: {}, //start of with an empty object
+  imageUrl: '',
+  box: {},
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -33,59 +33,48 @@ const initialState = {
     email: '',
     entries: 0,
     joined: ''
-  } //end of user
+  }
 }
 
 class App extends Component {
   constructor() {
     super();
     this.state = initialState;
-  } //end of constructor
+  }
 
   loadUser = (data) => {
     this.setState({user: {
-       id: data.id,
-        name: data.name,
-        email: data.email,
-        entries: data.entries,
-        joined: data.entries
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
     }})
-  } 
-
-  //  ---CHECK---
-  // //point to instantiate the network request, a livecycle hook that comes with react.
-  // componentDidMount() {
-  //   fetch('http://localhost:3000/')//backend is running on localHost 3000, reading the base with '/'
-  //     .then(response => response.json())//we use .json so  that we can read it
-  //     .then(console.log)//the data will automatically get added in; instead of data => console.log(data);
-  // }
-  //  -------
+  }
 
   calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputimage');
-    const width = Number(image.width); //ensures that it's a number; note:we focused the width to always be 500px
+    const width = Number(image.width);
     const height = Number(image.height);
-    console.log(" Width and Height of image is : ",width,height);
-//  we want to return an object that will fill up the 'box' state. The object will need to figure out the
-//  first,second,third and forth dot and wrap it around the border.
-    return{
+    console.log("Width & height is ",width,height);
+    return {
       leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height, //height of it is the percentage
+      topRow: clarifaiFace.top_row * height,
       rightCol: width - (clarifaiFace.right_col * width),
       bottomRow: height - (clarifaiFace.bottom_row * height)
     }
   }
 
   displayFaceBox = (box) => {
-    this.setState({box: box})
-  } 
+    this.setState({box: box});
+  }
 
   onInputChange = (event) => {
     this.setState({input: event.target.value});
   }
 
-  onSubmitClick = () => {
+  onButtonSubmit = () => {
     //Test 2
     this.setState({imageUrl: this.state.input});
       fetch('http://localhost:3000/imageurl', {
@@ -118,38 +107,41 @@ class App extends Component {
   }//end of onSubmitClick
 
   onRouteChange = (route) => {
-    if(route === 'signout') {
-      this.setState(initialState) //reset the state.
+    if (route === 'signout') {
+      this.setState(initialState)
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
     }
     this.setState({route: route});
   }
-//FaceRecognition will take in the state of the box to draw the box on the image of the face being detected
+
   render() {
-    const { isSignedIn, imageURL, route, box } = this.state;
+    const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
-        <Particles className='particles' 
-          params={particlesOption}
+         <Particles className='particles'
+          params={particlesOptions}
         />
-        <Navigation isSignedIn = {isSignedIn }onRouteChange={this.onRouteChange}/>
-        { route === 'home' ?
-          <div>
-            <Logo /> 
-            <Rank name={this.state.user.name} entries={this.state.user.entries}/>
-            <ImageLinkForm 
-              onInputChange={this.onInputChange} 
-              onSubmit={this.onSubmitClick}
-            />
-            <FaceRecognition box ={box} imageURL={imageURL} />
-          </div>
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+        { route === 'home'
+          ? <div>
+              <Logo />
+              <Rank
+                name={this.state.user.name}
+                entries={this.state.user.entries}
+              />
+              <ImageLinkForm
+                onInputChange={this.onInputChange}
+                onButtonSubmit={this.onButtonSubmit}
+              />
+              <FaceRecognition box={box} imageUrl={imageUrl} />
+            </div>
           : (
-              this.state.route === 'signin' ?
-                <Signin loadUser={this.loadUser} onRouteChange = {this.onRouteChange}/>
-              : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>  
+             route === 'signin'
+             ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+             : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
             )
-        }  
+        }
       </div>
     );
   }
