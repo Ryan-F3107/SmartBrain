@@ -35,4 +35,11 @@
       "last 1 safari version"
     ]
   }
+  {
+  "name": "ryan-smart-brain",
+  "description": "a really cool app",
+  "version": "1.0.0",
+  "engines": {
+    "node": "12.16.x"
+  }
 }
