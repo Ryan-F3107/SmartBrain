@@ -1,13 +1,23 @@
 # SmartBrain
-updating periodically !!
+After clicking the link
+[ If your don't already have an account ]
+1) Please create an account by clicking the register button and filling in the form.
+2) Once you have hit register, you will be logged in.
+-- Activity --
+3) Copy an image url ( right-click image -> copy image address )
+4) Paste the link in the input bar and click the button 'Detect'
+5) The clarafai api will detect the face in the image and increment your score by one. ( The api can only detect one face in an image )
+6) Finally, you can sign out. Your score will be saved in a database and you can log into your account anytime.
 
 ## Frontend ##
 Used create-react app with reactjs,css and javascript
 
 ## Backend ##
-[ Still in learning stage, plan on implementing Node.js & Express.js for the server & PostgreSQL for the database. ]
+Used node.js, postgreSQL for the database.
 
-To run this program.
+The application was deployed using Heroku.
+
+To run this program. (If you want to run it locally)
 ---
 1) Clone the repository
 2) Run npm install -> [ on command line ]
