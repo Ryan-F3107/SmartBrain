@@ -1,6 +1,6 @@
 # SmartBrain
 After clicking the link
-[ If your don't already have an account ]
+-- If your don't already have an account  -- 
 1) Please create an account by clicking the register button and filling in the form.
 2) Once you have hit register, you will be logged in.
 -- Activity --
