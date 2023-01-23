@@ -1,5 +1,6 @@
 # SmartBrain
 :upside_down_face: Due to Heroku free package being discontinued, the project link is no longer functionable. The project can still be cloned onto your computer to run locally. Will look into making some changes to get the project running again.:rocket:
+
 After clicking the link
 -- If your don't already have an account  -- 
 1) Please create an account by clicking the register button and filling in the form.
